@@ -1,0 +1,33 @@
+from scipy.stats import ttest_ind
+
+# Define weights for L group
+L_weights = [
+    1.13, 1.48, 1.16, 1.03, 1.3,
+    1.14, 1.35, 1.49, 1.16, 1.37,
+    1.27, 0.94, 0.77, 1.48, 1.57,
+    1.33, 0.99
+
+]
+
+F_weights = [
+    1.12, 1.16, 1.07, 1.67, 1.28,
+    1.12, 1, 1.22, 1.28, 1.06,
+    1.42, 1.38, 1.48, 1.22, 1.69,
+    1.23, 1.25, 1.34, 1.38, 1.03,
+    0.84, 1.27, 1.06, 1.03, 0.99,
+    1.37, 1.46
+]
+
+# Perform Welch's t-test
+t_stat, p_value = ttest_ind(L_weights, F_weights, equal_var=False)
+
+# Output result
+print(f"T-statistic: {t_stat:.4f}")
+print(f"P-value: {p_value:.4f}")
+
+# Interpretation
+alpha = 0.05
+if p_value < alpha:
+    print("Result: Statistically significant difference in weights between L and F groups.")
+else:
+    print("Result: No statistically significant difference in weights between L and F groups.")
