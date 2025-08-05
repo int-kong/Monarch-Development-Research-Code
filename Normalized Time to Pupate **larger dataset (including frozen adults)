@@ -1,0 +1,107 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+
+# Data
+L_weights = [
+    15, 15.29, 14.29, 18.29, 18.04, 16.29, 14.29, 15.29, 17.33, 16, 17.33,
+    16.29, 15.04, 17.33, 16.29, 14.29, 15.04, 20, 16.29, 17.33, 20.25
+]
+
+F_weights = [
+    15, 16.29, 15, 16.29, 17.33, 16.29, 18.29, 15.29, 14.29, 15.29, 14.29, 14, 15.29, 14.29,
+    15, 14.29, 16.29, 14.29, 15.29, 15.29, 15, 14.29, 14.29, 16.29, 18.29, 16.29, 19.29, 19.29, 18.04, 17.33, 15.04
+]
+
+# Prepare figure
+plt.figure(figsize=(8, 6))
+
+#Set bins for histogram
+presetBins = [14,15,16,17,18,19,20]
+presetBins2 = [13.7, 14.7,15.7,16.7,17.7,18.7,19.7,20]
+
+
+# Plot normalized histograms
+plt.hist(L_weights, bins=presetBins , density=True, alpha=0.4, label='L group', color='green', edgecolor='black')
+plt.hist(F_weights, bins=presetBins2, density=True, alpha=0.4, label='F group', color='orange', edgecolor='black')
+
+# Kernel Density Estimation (KDE)
+kde_L = gaussian_kde(L_weights)
+kde_F = gaussian_kde(F_weights)
+
+# Define range for x-axis (from min to max combined)
+xmin = min(min(L_weights), min(F_weights)) - 0.05
+xmax = max(max(L_weights), max(F_weights)) + 0.05
+x_values = np.linspace(xmin, xmax, 200)
+
+# Plot KDE curves
+plt.plot(x_values, kde_L(x_values), color='green', lw=2, label='L group KDE')
+plt.plot(x_values, kde_F(x_values), color='orange', lw=2, label='F group KDE')
+
+# Labels and legend
+plt.title('Normalized Time to pupate with KDE (all pupae)')
+plt.xlabel('Time (Days)')
+plt.ylabel('Probability Density')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+plt.show()
+
+
+
+
+
+
+
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+
+# Data
+L_weights = [
+    15, 15.29, 14.29, 18.29, 18.04, 16.29, 14.29, 15.29,
+17.33, 16.29, 15.04, 17.33, 16.29, 14.29, 15.04, 16.29, 17.33
+]
+
+F_weights = [
+    15, 16.29, 15, 16.29, 17.33, 16.29, 18.29, 14.29, 15.29, 14,
+    15.29, 14.29, 15, 14.29, 16.29, 14.29, 15.29, 15.29, 14.29,
+    16.29, 18.29, 16.29, 19.29, 19.29, 18.04, 17.33, 15.04
+]
+
+# Prepare figure
+plt.figure(figsize=(8, 6))
+
+#Set bins for histogram
+presetBins = [14,15,16,17,18,19,20]
+presetBins2 = [13.7, 14.7,15.7,16.7,17.7,18.7,19.7,20]
+
+# Plot normalized histograms
+plt.hist(L_weights, bins=presetBins , density=True, alpha=0.4, label='L group', color='green', edgecolor='black')
+plt.hist(F_weights, bins=presetBins2, density=True, alpha=0.4, label='F group', color='orange', edgecolor='black')
+
+# Kernel Density Estimation (KDE)
+kde_L = gaussian_kde(L_weights)
+kde_F = gaussian_kde(F_weights)
+
+# Define range for x-axis (from min to max combined)
+xmin = min(min(L_weights), min(F_weights)) - 0.05
+xmax = max(max(L_weights), max(F_weights)) + 0.05
+x_values = np.linspace(xmin, xmax, 200)
+
+# Plot KDE curves
+plt.plot(x_values, kde_L(x_values), color='green', lw=2, label='L group KDE')
+plt.plot(x_values, kde_F(x_values), color='orange', lw=2, label='F group KDE')
+
+# Labels and legend
+plt.title('Normalized Time to Pupate with KDE')
+plt.xlabel('Time (Days)')
+plt.ylabel('Probability Density')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+plt.show()
