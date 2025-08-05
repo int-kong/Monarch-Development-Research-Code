@@ -1,0 +1,50 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+
+# Data
+L_weights = [
+    0.46, 0.64, 0.49, 0.77, 0.48,
+    0.49, 0.43, 0.57, 0.59, 0.59,
+    0.65, 0.57, 0.45, 0.55, 0.67,
+    0.65, 0.57
+]
+
+F_weights = [
+    0.46, 0.51, 0.48, 0.67, 0.46,
+    0.52, 0.77, 0.53, 0.54, 0.58,
+    0.64, 0.61, 0.61, 0.55, 0.67,
+    0.49, 0.58, 0.58, 0.57, 0.41,
+    0.48, 0.58, 0.70, 0.54, 0.45,
+    0.59, 0.61
+]
+
+# Prepare figure
+plt.figure(figsize=(8, 6))
+
+# Plot normalized histograms
+plt.hist(L_weights, bins=10, density=True, alpha=0.4, label='L group', color='blue', edgecolor='black')
+plt.hist(F_weights, bins=10, density=True, alpha=0.4, label='F group', color='green', edgecolor='black')
+
+# Kernel Density Estimation (KDE)
+kde_L = gaussian_kde(L_weights)
+kde_F = gaussian_kde(F_weights)
+
+# Define range for x-axis (from min to max combined)
+xmin = min(min(L_weights), min(F_weights)) - 0.05
+xmax = max(max(L_weights), max(F_weights)) + 0.05
+x_values = np.linspace(xmin, xmax, 200)
+
+# Plot KDE curves
+plt.plot(x_values, kde_L(x_values), color='blue', lw=2, label='L group KDE')
+plt.plot(x_values, kde_F(x_values), color='green', lw=2, label='F group KDE')
+
+# Labels and legend
+plt.title('Normalized Adult Weight Distribution with KDE')
+plt.xlabel('Weight (g)')
+plt.ylabel('Probability Density')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+plt.show()
