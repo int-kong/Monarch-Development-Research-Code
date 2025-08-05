@@ -1,0 +1,55 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+
+# Data
+L_weights = [
+    1.13, 1.48, 1.16, 1.03, 1.3,
+    1.14, 1.35, 1.49, 1.16, 1.37,
+    1.27, 0.94, 0.77, 1.48, 1.57,
+    1.33, 0.99
+
+]
+
+F_weights = [
+    1.12, 1.16, 1.07, 1.67, 1.28,
+    1.12, 1, 1.22, 1.28, 1.06,
+    1.42, 1.38, 1.48, 1.22, 1.69,
+    1.23, 1.25, 1.34, 1.38, 1.03,
+    0.84, 1.27, 1.06, 1.03, 0.99,
+    1.37, 1.46
+]
+
+# Prepare figure
+plt.figure(figsize=(8, 6))
+
+#Set bins for histogram
+presetBins = [0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8]
+
+
+# Plot normalized histograms
+plt.hist(L_weights, bins=8 , density=True, alpha=0.4, label='L group', color='green', edgecolor='black')
+plt.hist(F_weights, bins=8, density=True, alpha=0.4, label='F group', color='orange', edgecolor='black')
+
+# Kernel Density Estimation (KDE)
+kde_L = gaussian_kde(L_weights)
+kde_F = gaussian_kde(F_weights)
+
+# Define range for x-axis (from min to max combined)
+xmin = min(min(L_weights), min(F_weights)) - 0.05
+xmax = max(max(L_weights), max(F_weights)) + 0.05
+x_values = np.linspace(xmin, xmax, 200)
+
+# Plot KDE curves
+plt.plot(x_values, kde_L(x_values), color='green', lw=2, label='L group KDE')
+plt.plot(x_values, kde_F(x_values), color='orange', lw=2, label='F group KDE')
+
+# Labels and legend
+plt.title('Normalized 2nd Day Pupae Weight Distribution with KDE')
+plt.xlabel('Weight (g)')
+plt.ylabel('Probability Density')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+plt.show()
